@@ -1,5 +1,22 @@
 import random
 import time
+import
+def bubble_sort(arr):
+
+    if len(arr) <= 1:
+        return arr
+    n = len(arr);
+    for i in range(n - 1):
+        swapped = False
+
+        for j in range (n - 2):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+
+        if not swapped:
+            break
+    return arr
 
 def merge_sort(arr):
     if len(arr) <= 1:
@@ -50,26 +67,27 @@ def merge(left, right):
     return result
 
 def quick_sort(arr):
-    """
-    Implementa o algoritmo de ordenação Quick Sort.
-    :param arr: Lista de elementos a serem ordenados.
-    :return: Lista ordenada.
-    """
-    # Caso base: listas com 0 ou 1 elemento já estão ordenadas.
+
     if len(arr) <= 1:
         return arr
 
-    # Escolhemos o pivô como o elemento do meio para evitar os piores casos.
+    #para facilitar, escolher pivot como elemento do meio
     pivot = arr[len(arr) // 2]
 
-    # Listas para armazenar elementos menores, iguais e maiores que o pivô.
-    less_than_pivot = [x for x in arr if x < pivot]  # Elementos menores que o pivô.
-    equal_to_pivot = [x for x in arr if x == pivot]  # Elementos iguais ao pivô.
-    greater_than_pivot = [x for x in arr if x > pivot]  # Elementos maiores que o pivô.
+    less_than_pivot = [x for x in arr if x < pivot]  # Elementos menores que o pivot
+    equal_to_pivot = [x for x in arr if x == pivot]  # Elementos iguais ao pivot
+    greater_than_pivot = [x for x in arr if x > pivot]  # Elementos maiores que o pivot
 
-    # Recursivamente ordenamos as sublistas 'less_than_pivot' e 'greater_than_pivot'.
+    #recursão
     return quick_sort(less_than_pivot) + equal_to_pivot + quick_sort(greater_than_pivot)
-random_array = [random.randint(-100000, 100000) for _ in range(1000)]
+random_array = [random.randint(-100000, 100000) for _ in range(100000)]
+
+
+start_BS = time.time()
+print(bubble_sort(random_array))
+end_BS = time.time()
+total_time_BS = end_BS - start_BS
+total_time_BS = str(total_time_BS)
 
 start_QS = time.time()
 print(quick_sort(random_array))
@@ -85,5 +103,7 @@ total_time_MS = str(total_time_MS)
 
 
 
+
 print("Total time for Merge Sort: " + total_time_MS)
 print("total time for Quick Sort: " + total_time_QS)
+print("total time for Bubble Sort: " + total_time_BS)
