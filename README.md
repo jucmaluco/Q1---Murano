@@ -11,10 +11,12 @@ To install the library for usage, simply run "pip install Matplotlib" on your co
 Both the time ("import time") and random ("import random") were also used, but are part of Python's standard library, which means it is included with Python by default and do not need to be manually installed.
 
 <h1> Running the code </h1>
-To run the code and compare the speed of the sorting algorithms, the user needs to download the file Questão1Murano.py. Making sure the user has Python and it's dependencies installed, all the user will need to do is run the code. 
-The variable sizes:
+
+After installing the required libraries, users can compare the performance of the sorting algorithms by downloading the file Questão1Murano.py. Once Python and its dependencies are properly set up, running the code is all that’s needed.
+
+To determine the size of the array the user wants to test the sorting algorithims with, all it needs to do is to change the "sizes" variable: 
 ie: sizes = [100, 400, 1000, 5000, 10000]  
-Is used to determine N, the number of integers the arrays will have for each comparison (with 5 comparisons being made in total). 
+This variable is used to determine N, the number of integers the arrays will have for each comparison (with 5 comparisons being made in total). 
 
 <h1> Analyzing the results </h1>
 The code with the smallest coomputational complexity, even though not the fastest running one, would be Merge Sort. Both Merge and Quick Sort have a complexity of O(n log n), but, the bad selection of the pivot element can cause Quick Sort to have a complexity of O(n²).   
