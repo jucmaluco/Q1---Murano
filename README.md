@@ -8,7 +8,7 @@ This library is used to visualize the performance of the sorting algorithms. It 
 To install the library for usage, simply run "pip install Matplotlib" on your code terminal. 
 
 <h2> Others </h2>
-Both the time ("import time") and random ("import random") were also used, but are part of Python's standard library, which means it is included with Python by default and do not need to be manually installed.
+Both time ("import time") and random ("import random") modules were also used, but are part of Python's standard library, which means it is included with Python by default and do not need to be manually installed.
 
 <h1> Running the code </h1>
 
