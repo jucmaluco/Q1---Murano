@@ -1,19 +1,15 @@
 import random
 import time
-import
-def bubble_sort(arr):
+from matplotlib import pyplot as plt
 
-    if len(arr) <= 1:
-        return arr
-    n = len(arr);
+def bubble_sort(arr):
+    n = len(arr)
     for i in range(n - 1):
         swapped = False
-
-        for j in range (n - 2):
+        for j in range(n - 1 - i):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 swapped = True
-
         if not swapped:
             break
     return arr
@@ -34,36 +30,24 @@ def merge_sort(arr):
 
 
 def merge(left, right):
-    """
-    Combina duas listas ordenadas em uma única lista ordenada.
-    :param left: Lista ordenada à esquerda.
-    :param right: Lista ordenada à direita.
-    :return: Lista combinada e ordenada.
-    """
-    # Lista para armazenar o resultado da fusão.
     result = []
-    left_index, right_index = 0, 0  # Índices para percorrer as listas esquerda e direita.
+    left_index, right_index = 0, 0
 
-    # Passo 1: Comparar os elementos das duas listas e adicionar o menor ao resultado.
     while left_index < len(left) and right_index < len(right):
         if left[left_index] < right[right_index]:
-            result.append(left[left_index])  # Adiciona o menor elemento da esquerda.
-            left_index += 1  # Avança para o próximo elemento na esquerda.
+            result.append(left[left_index])
+            left_index += 1
         else:
-            result.append(right[right_index])  # Adiciona o menor elemento da direita.
-            right_index += 1  # Avança para o próximo elemento na direita.
+            result.append(right[right_index])
+            right_index += 1
 
-    # Passo 2: Adicionar os elementos restantes (se houver) da lista esquerda.
     while left_index < len(left):
         result.append(left[left_index])
         left_index += 1
 
-    # Passo 3: Adicionar os elementos restantes (se houver) da lista direita.
     while right_index < len(right):
         result.append(right[right_index])
         right_index += 1
-
-    # Retorna a lista combinada e ordenada.
     return result
 
 def quick_sort(arr):
@@ -71,39 +55,69 @@ def quick_sort(arr):
     if len(arr) <= 1:
         return arr
 
-    #para facilitar, escolher pivot como elemento do meio
     pivot = arr[len(arr) // 2]
 
-    less_than_pivot = [x for x in arr if x < pivot]  # Elementos menores que o pivot
-    equal_to_pivot = [x for x in arr if x == pivot]  # Elementos iguais ao pivot
-    greater_than_pivot = [x for x in arr if x > pivot]  # Elementos maiores que o pivot
+    less_than_pivot = [x for x in arr if x < pivot]
+    equal_to_pivot = [x for x in arr if x == pivot]
+    greater_than_pivot = [x for x in arr if x > pivot]
 
     #recursão
     return quick_sort(less_than_pivot) + equal_to_pivot + quick_sort(greater_than_pivot)
-random_array = [random.randint(-100000, 100000) for _ in range(100000)]
+
+# for N = 10^3
+def time_comparison(sizes, num_trials):
+    times = {"Bubble Sort": [], "Quick Sort": [], "Merge Sort": []}
+
+    for size in sizes:
+        bs_time, qs_time, ms_time = 0, 0, 0  # Acumula tempos para trials
+
+        random_array = [random.randint(-100000, 100000) for _ in range(size)]
+
+        # Bubble Sort
+        arr_copy = random_array[:]
+        start = time.time()
+        bubble_sort(arr_copy)
+        bs_time += time.time() - start
+
+        # Quick Sort
+        arr_copy = random_array[:]
+        start = time.time()
+        quick_sort(arr_copy)
+        qs_time += time.time() - start
+
+        # Merge Sort
+        arr_copy = random_array[:]
+        start = time.time()
+        merge_sort(arr_copy)
+        ms_time += time.time() - start
+
+        # Calcula o tempo médio para cada algoritmo
+        times["Bubble Sort"].append(bs_time / num_trials)
+        times["Quick Sort"].append(qs_time / num_trials)
+        times["Merge Sort"].append(ms_time / num_trials)
+        print("Quick Sort:")
+        print(qs_time)
+        print("Bubble Sort:")
+        print(bs_time)
+        print("Merge Sort")
+        print(ms_time)
+    return times
+
+# Plotando os resultados
+sizes = [10, 200, 400, 800, 1000]  # Diferentes tamanhos de array
+num_trials = 1
+times = time_comparison(sizes, num_trials)
+
+# Criando o gráfico
+plt.figure(figsize=(10, 6))
+plt.plot(sizes, times["Bubble Sort"], label="Bubble Sort")
+plt.plot(sizes, times["Quick Sort"], label="Quick Sort")
+plt.plot(sizes, times["Merge Sort"], label="Merge Sort")
+plt.xlabel("Tamanho do Array")
+plt.ylabel("Tempo de Execução (s)")
+plt.title("Comparação de Algoritmos de Ordenação")
+plt.legend()
+plt.grid(True)
+plt.show()
 
 
-start_BS = time.time()
-print(bubble_sort(random_array))
-end_BS = time.time()
-total_time_BS = end_BS - start_BS
-total_time_BS = str(total_time_BS)
-
-start_QS = time.time()
-print(quick_sort(random_array))
-end_QS = time.time()
-total_time_QS = end_QS - start_QS
-total_time_QS = str(total_time_QS)
-
-start_MS = time.time()
-print(merge_sort(random_array))
-end_MS = time.time()
-total_time_MS = end_MS - start_MS
-total_time_MS = str(total_time_MS)
-
-
-
-
-print("Total time for Merge Sort: " + total_time_MS)
-print("total time for Quick Sort: " + total_time_QS)
-print("total time for Bubble Sort: " + total_time_BS)
